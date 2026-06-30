@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { margin: 0; background: #000; height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        
+        .logo { 
+            width: 300px; opacity: 0; 
+            filter: sepia(0.2) contrast(1.1);
+            animation: fadeIn 0.5s ease-in forwards 1s; 
+        }
+
+        .shine {
+            position: absolute; top: 0; left: -100%; width: 20%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-20deg);
+            animation: shineEffect 0.8s ease-in-out forwards 2s;
+        }
+
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes shineEffect { to { left: 150%; } }
+    </style>
+</head>
+<body>
+
+    <img src="https://i.postimg.cc/NLqy8v05/IMG-2741.png" class="logo">
+    <div class="shine"></div>
+
+    <script>
+        // Substitua pelos nomes dos seus arquivos de áudio na pasta
+        const sounds = {
+            whoosh: new Audio('whoosh.mp3'),
+            snap: new Audio('snap.mp3'),
+            vinil: new Audio('vinil.mp3')
+        };
+
+        window.onload = () => {
+            // 00:01 - Whoosh
+            setTimeout(() => sounds.whoosh.play(), 1000);
+            // 00:02 - Snap (ao aparecer)
+            setTimeout(() => sounds.snap.play(), 2000);
+            // 00:02 - Vinil (loop baixo)
+            setTimeout(() => {
+                sounds.vinil.volume = 0.1;
+                sounds.vinil.play();
+            }, 2000);
+        };
+    </script>
+</body>
+</html>
