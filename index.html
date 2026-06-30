@@ -8,31 +8,27 @@
         #intro { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 999; background: #000; }
         
         .logo-wrapper { position: relative; display: flex; align-items: center; justify-content: center; }
-        .logo { width: 350px; opacity: 0; filter: drop-shadow(0 0 20px rgba(255,255,255,0.2)); }
-        
+        .logo { width: 350px; opacity: 0; filter: drop-shadow(0 0 20px rgba(255,255,255,0.2)); z-index: 2; }
         .aura { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); opacity: 0; }
         
-        /* MÚLTIPLAS LISTRAS DE LUZ */
-        .sweep {
-            position: absolute; 
-            top: -50%; left: -150%; 
-            width: 100%; height: 200%;
-            /* Aqui criamos várias listras com gradientes lado a lado */
-            background: linear-gradient(90deg, 
-                transparent, rgba(255,255,255,0.05) 10%, transparent 20%, 
-                transparent, rgba(255,255,255,0.1) 40%, transparent 50%,
-                transparent, rgba(255,255,255,0.05) 70%, transparent 80%);
+        /* CONTAINER DE FEIXES */
+        .beams-container { position: absolute; inset: 0; pointer-events: none; z-index: 1000; }
+        .beam {
+            position: absolute; width: 15%; height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
             transform: rotate(-25deg);
-            pointer-events: none;
-            z-index: 1000;
-            opacity: 0;
+            top: -50%; opacity: 0;
         }
     </style>
 </head>
 <body>
 
     <div id="intro">
-        <div class="sweep"></div>
+        <div class="beams-container">
+            <div class="beam" id="b1"></div>
+            <div class="beam" id="b2"></div>
+            <div class="beam" id="b3"></div>
+        </div>
         <div class="aura"></div>
         <div class="logo-wrapper">
             <img src="https://i.postimg.cc/NLqy8v05/IMG-2741.png" class="logo">
@@ -42,16 +38,14 @@
     <script>
         const tl = gsap.timeline();
 
-        // Animação das listras cruzando a tela
-        tl.to(".sweep", { 
-            opacity: 1,
-            left: "150%", 
-            duration: 2.5, 
-            ease: "power2.inOut" 
-        })
-        // Sincronia com a logo
-        .to(".aura", { opacity: 1, duration: 2, ease: "power2.inOut" }, "-=2.2")
-        .fromTo(".logo", 
+        // Animação dos 3 feixes em sequência
+        tl.to("#b1", { left: "120%", opacity: 0.8, duration: 2, ease: "power2.inOut" })
+          .to("#b2", { left: "140%", opacity: 0.6, duration: 2.2, ease: "power2.inOut" }, "-=1.8")
+          .to("#b3", { left: "160%", opacity: 0.4, duration: 2.5, ease: "power2.inOut" }, "-=2.0")
+          
+          // Animação Logo e Aura
+          .to(".aura", { opacity: 1, duration: 2, ease: "power2.inOut" }, "-=2.5")
+          .fromTo(".logo", 
             { scale: 0.8, opacity: 0, filter: "blur(20px)" },
             { scale: 1, opacity: 1, filter: "blur(0px)", duration: 2.5, ease: "power4.out" }, "-=2.0");
 
