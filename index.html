@@ -7,28 +7,30 @@
         body { margin: 0; background: #000; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         #intro { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 999; background: #000; }
         
-        .logo-wrapper { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .logo-wrapper { position: relative; display: flex; align-items: center; justify-content: center; }
         .logo { width: 350px; opacity: 0; filter: drop-shadow(0 0 20px rgba(255,255,255,0.2)); }
         
-        /* Luz de fundo */
         .aura { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); opacity: 0; }
         
-        /* O Feixe de luz diagonal */
+        /* FEIXE DE LUZ NA TELA (Tela cheia) */
         .sweep {
-            position: absolute; top: -50%; left: -100%; width: 50%; height: 200%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
-            transform: rotate(25deg);
-            opacity: 0;
-            z-index: 10;
+            position: absolute; 
+            top: -50%; left: -100%; 
+            width: 30%; height: 200%; /* Largura ajustada para ser um feixe elegante */
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: rotate(-25deg); /* Inclinação de cinema */
+            pointer-events: none;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
 
     <div id="intro">
+        <div class="sweep"></div>
+        
         <div class="aura"></div>
         <div class="logo-wrapper">
-            <div class="sweep"></div>
             <img src="https://i.postimg.cc/NLqy8v05/IMG-2741.png" class="logo">
         </div>
     </div>
@@ -36,19 +38,17 @@
     <script>
         const tl = gsap.timeline();
 
-        // 1. Aura e Logo
-        tl.to(".aura", { opacity: 1, duration: 2, ease: "power2.inOut" })
-          .fromTo(".logo", 
-            { scale: 0.8, opacity: 0, filter: "blur(20px)" },
-            { scale: 1, opacity: 1, filter: "blur(0px)", duration: 2.5, ease: "power4.out" }, "-=1.5")
-          
-          // 2. O Feixe de luz (Sweep) passando pela logo
-          .to(".sweep", { 
-            opacity: 0.5, 
+        // 1. Feixe de luz varrendo a tela
+        tl.to(".sweep", { 
             left: "150%", 
-            duration: 1.2, 
+            duration: 2.0, 
             ease: "power2.inOut" 
-          }, "-=1.8"); // Inicia um pouco antes da logo terminar de subir
+        })
+        // 2. Aura e Logo (sincronizados com o movimento da luz)
+        .to(".aura", { opacity: 1, duration: 2, ease: "power2.inOut" }, "-=2.0")
+        .fromTo(".logo", 
+            { scale: 0.8, opacity: 0, filter: "blur(20px)" },
+            { scale: 1, opacity: 1, filter: "blur(0px)", duration: 2.5, ease: "power4.out" }, "-=1.5");
 
         // Som cinematográfico
         const boom = new Audio('https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg');
