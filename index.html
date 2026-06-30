@@ -1,342 +1,75 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Plus+ Intro</title>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-background:#000;
-overflow:hidden;
-font-family:Arial,Helvetica,sans-serif;
-}
-
-/* INTRO */
-
-#intro{
-
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#000;
-display:flex;
-justify-content:center;
-align-items:center;
-overflow:hidden;
-z-index:99999;
-
-}
-
-/* Fundo */
-
-#background{
-
-position:absolute;
-width:100%;
-height:100%;
-background:radial-gradient(circle,#101010 0%,#000 80%);
-
-}
-
-/* Luz do projetor */
-
-.light{
-
-position:absolute;
-
-left:-80%;
-
-width:80%;
-
-height:150%;
-
-background:linear-gradient(90deg,
-transparent,
-rgba(255,255,255,.05),
-rgba(255,255,255,.25),
-rgba(255,255,255,.05),
-transparent);
-
-transform:rotate(-14deg);
-
-animation:lightMove 2.8s ease forwards;
-
-}
-
-@keyframes lightMove{
-
-0%{
-left:-80%;
-opacity:0;
-}
-
-20%{
-opacity:1;
-}
-
-100%{
-left:140%;
-opacity:0;
-}
-
-}
-
-/* brilho */
-
-.glow{
-
-position:absolute;
-
-width:240px;
-height:240px;
-
-border-radius:50%;
-
-background:white;
-
-filter:blur(80px);
-
-opacity:0;
-
-animation:glow 3s forwards;
-
-}
-
-@keyframes glow{
-
-0%{
-
-opacity:0;
-transform:scale(.4);
-
-}
-
-35%{
-
-opacity:.12;
-
-}
-
-100%{
-
-opacity:0;
-transform:scale(2);
-
-}
-
-}
-
-/* Logo */
-
-.logo-container{
-
-position:relative;
-overflow:hidden;
-
-}
-
-.logo{
-
-width:360px;
-opacity:0;
-
-filter:drop-shadow(0 0 15px rgba(255,255,255,.45));
-
-animation:logo 3.8s forwards;
-animation-delay:.6s;
-
-}
-
-@keyframes logo{
-
-0%{
-
-opacity:0;
-transform:scale(.92);
-
-}
-
-30%{
-
-opacity:1;
-
-}
-
-80%{
-
-opacity:1;
-
-}
-
-100%{
-
-opacity:0;
-transform:scale(1.02);
-
-}
-
-}
-
-/* Reflexo */
-
-.shine{
-
-position:absolute;
-
-top:0;
-
-left:-60%;
-
-width:50%;
-
-height:100%;
-
-background:linear-gradient(
-90deg,
-transparent,
-rgba(255,255,255,.95),
-transparent);
-
-transform:skewX(-20deg);
-
-animation:shine 1.3s linear;
-
-animation-delay:2s;
-
-}
-
-@keyframes shine{
-
-from{
-
-left:-60%;
-
-}
-
-to{
-
-left:150%;
-
-}
-
-}
-
-/* Granulado */
-
-.noise{
-
-position:absolute;
-
-width:100%;
-height:100%;
-
-opacity:.04;
-
-background-image:
-repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,.2) 0 1px, transparent 2px 5px);
-
-mix-blend-mode:screen;
-
-animation:noise .15s infinite;
-
-}
-
-@keyframes noise{
-
-0%{transform:translate(0,0);}
-25%{transform:translate(1px,-1px);}
-50%{transform:translate(-1px,1px);}
-75%{transform:translate(2px,0);}
-100%{transform:translate(0,0);}
-
-}
-
-/* APP */
-
-#app{
-
-width:100%;
-height:100vh;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-background:#111;
-
-color:white;
-
-font-size:28px;
-
-opacity:0;
-
-transition:opacity 1s;
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <title>Intro Plus+</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; overflow: hidden; }
+
+        #intro {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; display: flex; justify-content: center; align-items: center;
+            z-index: 9999;
+        }
+
+        .logo { 
+            width: 320px; opacity: 0;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
+            animation: fadeInLogo 2s ease forwards 0.5s;
+        }
+
+        .shine {
+            position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            transform: skewX(-20deg);
+            animation: shineEffect 1.5s linear forwards 2s;
+        }
+
+        .noise {
+            position: absolute; width: 100%; height: 100%; opacity: 0.05;
+            background-image: repeating-radial-gradient(circle, rgba(255,255,255,0.1) 0, transparent 2px);
+            pointer-events: none;
+        }
+
+        @keyframes fadeInLogo { 
+            0% { opacity: 0; transform: scale(0.95); } 
+            100% { opacity: 1; transform: scale(1); } 
+        }
+        @keyframes shineEffect { 0% { left: -100%; } 100% { left: 150%; } }
+
+        #app { color: white; display: flex; justify-content: center; align-items: center; height: 100vh; opacity: 0; transition: opacity 1s; }
+    </style>
 </head>
-
 <body>
 
-<div id="intro">
+    <div id="intro">
+        <div class="noise"></div>
+        <div style="position:relative;">
+            <img src="https://i.postimg.cc/NLqy8v05/IMG-2741.png" class="logo">
+            <div class="shine"></div>
+        </div>
+    </div>
 
-<div id="background"></div>
+    <div id="app"><h1>Bem-vindo ao App</h1></div>
 
-<div class="noise"></div>
+    <script>
+        // Carregar áudios (substitua pelos seus arquivos .mp3)
+        const snap = new Audio('snap.mp3'); 
 
-<div class="light"></div>
+        window.onload = () => {
+            // Toca o som do "Snap" no momento em que a logo aparece (0.5s)
+            setTimeout(() => { snap.play(); }, 500);
 
-<div class="glow"></div>
-
-<div class="logo-container">
-
-<img class="logo"
-src="https://i.postimg.cc/NLqy8v05/IMG-2741.png">
-
-<div class="shine"></div>
-
-</div>
-
-</div>
-
-<div id="app">
-
-🎬 Seu aplicativo aparece aqui.
-
-</div>
-
-<script>
-
-setTimeout(function(){
-
-document.getElementById("intro").style.transition="opacity 1.2s";
-
-document.getElementById("intro").style.opacity="0";
-
-setTimeout(function(){
-
-document.getElementById("intro").remove();
-
-document.getElementById("app").style.opacity="1";
-
-},1200);
-
-},4300);
-
-</script>
-
+            // Transição para o App
+            setTimeout(() => {
+                document.getElementById("intro").style.opacity = "0";
+                setTimeout(() => {
+                    document.getElementById("intro").remove();
+                    document.getElementById("app").style.opacity = "1";
+                }, 1000);
+            }, 3500);
+        };
+    </script>
 </body>
 </html>
