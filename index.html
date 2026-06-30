@@ -1,53 +1,99 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <style>
-        body { margin: 0; background: #000; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        
-        .container { position: relative; width: 350px; }
-        
-        .logo { width: 100%; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
-        
-        /* O "Feixe" de luz */
-        .sweep {
-            position: absolute; top: -50%; left: -100%;
-            width: 50%; height: 200%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-            transform: rotate(25deg);
-            opacity: 0;
-            pointer-events: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plus+ Intro</title>
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#000; overflow:hidden; }
+
+    #intro {
+        position:fixed; width:100%; height:100%; background:#000;
+        display:flex; justify-content:center; align-items:center;
+    }
+
+    /* 1. Feixe de Luz do Projetor */
+    .light {
+        position:absolute; left:-80%; width:60%; height:120%;
+        background:linear-gradient(90deg, transparent, rgba(255,255,255,.08), rgba(255,255,255,.18), transparent);
+        transform:rotate(-15deg);
+        animation:projector 2.8s ease forwards;
+    }
+    @keyframes projector {
+        0% { left:-80%; opacity:0; }
+        20% { opacity:1; }
+        100% { left:120%; opacity:0; }
+    }
+
+    /* 2. Brilho (Glow) atrás da logo */
+    .glow {
+        position:absolute; width:220px; height:220px; border-radius:50%;
+        background:white; filter:blur(80px); opacity:0;
+        animation:glow 3s forwards;
+    }
+    @keyframes glow {
+        0% { opacity:0; transform:scale(.2); }
+        40% { opacity:.12; }
+        100% { opacity:0; transform:scale(2); }
+    }
+
+    /* 3. Logo */
+    .logo {
+        position:relative; width:420px; opacity:0;
+        filter:drop-shadow(0 0 10px rgba(255,255,255,.35));
+        animation:fadeLogo 3.5s forwards; animation-delay:.8s;
+    }
+    @keyframes fadeLogo {
+        0% { opacity:0; transform:scale(.95); }
+        40% { opacity:1; }
+        80% { opacity:1; }
+        100% { opacity:0; transform:scale(1.03); }
+    }
+
+    /* 4. Reflexo Metálico (Shine) sobre a logo */
+    .shine {
+        position:absolute; top:50%; left:-40%; width:40%; height:140%;
+        background:linear-gradient(90deg, transparent, rgba(255,255,255,.9), transparent);
+        transform:translateY(-50%) rotate(18deg);
+        animation:shine 1.8s linear; animation-delay:2s;
+    }
+    @keyframes shine {
+        from { left:-40%; }
+        to { left:140%; }
+    }
+
+    /* 5. Granulado (Noise) */
+    .noise {
+        position:absolute; width:100%; height:100%; opacity:.05;
+        background-image:url("https://grainy-gradients.vercel.app/noise.svg");
+        mix-blend-mode:screen;
+    }
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- O feixe passa por cima -->
-        <div class="sweep"></div>
-        <img src="https://i.postimg.cc/NLqy8v05/IMG-2741.png" class="logo">
+    <div id="intro">
+        <div class="noise"></div>
+        <div class="light"></div>
+        <div class="glow"></div>
+        <div style="position:relative; overflow:hidden;">
+            <!-- Sua logo linkada -->
+            <img class="logo" src="https://i.postimg.cc/NLqy8v05/IMG-2741.png">
+            <div class="shine"></div>
+        </div>
     </div>
 
     <script>
-        const tl = gsap.timeline();
-
-        // 1. Surgimento da logo (Netflix Style)
-        tl.fromTo(".logo", 
-            { opacity: 0, scale: 0.9, filter: "blur(15px)" },
-            { opacity: 1, scale: 1, filter: "blur(0px)", duration: 2, ease: "power4.out" }
-        )
-        // 2. O feixe de luz passando (Hulu/HBO Style)
-        .to(".sweep", { 
-            opacity: 0.6, 
-            left: "150%", 
-            duration: 1.2, 
-            ease: "power2.inOut" 
-        }, "-=1.5");
-
-        // Som cinematográfico (substitua pelo seu arquivo .mp3)
-        // const audio = new Audio('seu-som-cinematico.mp3');
-        // audio.play();
+        // Transição para o App após o tempo da intro
+        setTimeout(function(){
+            document.body.style.background = "#111";
+            document.body.innerHTML = `
+                <div style="height:100vh; display:flex; justify-content:center; align-items:center; color:white; font-size:30px; font-family:sans-serif;">
+                    🎬 Carregando Plus+
+                </div>
+            `;
+        }, 4800);
     </script>
 </body>
 </html>
