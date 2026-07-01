@@ -40,7 +40,7 @@
         // 1. Feixes com diferença de tempo (delay de 0.5s entre eles)
         tl.to("#b1", { left: "120%", opacity: 0.7, duration: 1.5, ease: "power2.inOut" })
           .to("#b2", { left: "120%", opacity: 0.5, duration: 1.5, ease: "power2.inOut" }, "+=0.5") // 0.5s após o b1
-          .to("#b3", { left: "120%", opacity: 0.3, duration: 1.5, ease: "power2.inOut" }, "+=0.5") // 0.5s após o b2
+
           
           // 2. Animação da Logo e Aura (começa quando os feixes passam)
           .to(".aura", { opacity: 1, duration: 2, ease: "power2.inOut" }, "-=2.0")
